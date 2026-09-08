@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  background: #f4f6f8;
+}
+.app-shell {
+  min-height: 100vh;
+}
+.brand {
+  height: 64px;
+  padding: 20px 18px;
+  font-weight: 700;
+  color: #1677ff;
+}
+.top {
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  border-bottom: 1px solid #eee;
+}
+.content {
+  padding: 24px;
+}
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #e8f1ff, #f6f8fb);
+}
+.login-card {
+  width: 400px;
+}
+.answer {
+  min-height: 280px;
+  padding: 22px;
+  margin-top: 18px;
+  background: #fafafa;
+  border-radius: 8px;
+  line-height: 1.75;
+}
+.loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+.upload-progress {
+  margin: 16px 0;
+}
+.permission-note {
+  margin: 12px 0;
+}
+.answer pre {
+  background: #1f2329;
+  color: #f6f8fa;
+  padding: 16px;
+  border-radius: 6px;
+  overflow: auto;
+}
+.citation-button {
+  text-align: left;
+  height: auto !important;
+  white-space: normal !important;
+}
