@@ -2,6 +2,10 @@
 
 当前版本在第二阶段授权 RAG 闭环上增加真实 FAQ 自动沉淀、知识缺口、运营看板、PDF/DOCX/Markdown/TXT 批量导入、文档重建/删除生命周期和 React 管理控制台。FAQ、Citation、Dashboard 与 Gap 均继续执行后端租户/KB/文档 ACL。
 
+## 验收截图（老师请点这里）
+
+[查看部署验收截图与说明](docs/截图/README.md)
+
 ## 本地准备
 
 ```powershell
