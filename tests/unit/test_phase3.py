@@ -135,6 +135,23 @@ class Phase3Test(unittest.TestCase):
         first = self.upload(); second = self.upload()
         self.assertEqual(first, second)
 
+    def test_background_batch_validation_failure_does_not_leave_queued_jobs(self):
+        with patch.object(get_settings(), "max_upload_bytes", 4):
+            response = self.client.post(
+                "/documents/import/jobs/batch",
+                data={"kb_id": self.kb},
+                files=[
+                    ("files", ("valid.md", b"# A")),
+                    ("files", ("oversized.txt", b"12345")),
+                ],
+                headers=self.headers,
+            )
+
+        self.assertEqual(response.status_code, 400, response.text)
+        with session_factory()() as db:
+            jobs = list(db.scalars(select(IngestionJob).where(IngestionJob.kb_id == self.kb)))
+        self.assertEqual(jobs, [])
+
     def test_background_import_job_has_real_persisted_progress(self):
         created = self.client.post(
             "/documents/import/jobs",

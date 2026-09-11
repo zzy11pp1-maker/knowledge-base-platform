@@ -124,8 +124,7 @@ def _create_ingestion_job(db, user: Principal, kb_id: str, filename: str) -> Ing
         stage="等待处理",
     )
     db.add(job)
-    db.commit()
-    db.refresh(job)
+    db.flush()
     return job
 
 
@@ -257,6 +256,8 @@ async def create_import_job(
         await file.close()
     with session_factory()() as db:
         job = _create_ingestion_job(db, user, kb_id, filename)
+        db.commit()
+        db.refresh(job)
         output = IngestionJobOutput.model_validate(job)
     background_tasks.add_task(
         _run_ingestion_job,
@@ -291,17 +292,22 @@ async def create_batch_import_jobs(
         raise HTTPException(422, f"每批文件数量必须在 1 到 {settings.max_batch_files} 之间")
     with session_factory()() as db:
         kb_access(db, user, kb_id, "editor")
-    queued: list[tuple[IngestionJob, bytes]] = []
+    pending: list[tuple[str, bytes]] = []
     try:
         for file in files:
             data = await file.read(settings.max_upload_bytes + 1)
             if len(data) > settings.max_upload_bytes:
                 raise DocumentReadError(f"文档 {file.filename or ''} 超过大小限制")
-            with session_factory()() as db:
-                queued.append((_create_ingestion_job(db, user, kb_id, file.filename or ""), data))
+            pending.append((file.filename or "", data))
     finally:
         for file in files:
             await file.close()
+    with session_factory()() as db:
+        queued = [(_create_ingestion_job(db, user, kb_id, filename), data) for filename, data in pending]
+        db.commit()
+        for job, _ in queued:
+            db.refresh(job)
+        output = [IngestionJobOutput.model_validate(job) for job, _ in queued]
     for job, data in queued:
         background_tasks.add_task(
             _run_ingestion_job,
@@ -315,7 +321,7 @@ async def create_batch_import_jobs(
             chunk_size,
             chunk_overlap,
         )
-    return {"items": [IngestionJobOutput.model_validate(job) for job, _ in queued]}
+    return {"items": output}
 
 
 @router.get("/ingestion-jobs/{job_id}", response_model=IngestionJobOutput)
