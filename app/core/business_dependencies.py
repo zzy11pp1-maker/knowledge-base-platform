@@ -1,4 +1,4 @@
-"""受保护链路装配；复用第一阶段连接池，不重复打开本地 Qdrant。"""
+"""受保护链路装配；复用共享连接池，不重复打开本地 Qdrant。"""
 
 from functools import lru_cache
 

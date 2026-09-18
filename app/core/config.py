@@ -23,7 +23,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "2.9 企业知识库管理平台"
+    app_name: str = "企业知识库管理平台"
     app_env: str = "development"
     log_level: str = "INFO"
 
@@ -74,7 +74,7 @@ class Settings(BaseSettings):
     search_candidate_limit: int = 30
     rerank_top_k: int = 5
 
-    # 第三阶段业务阈值。FAQ 只在同一租户、同一知识库内聚类和命中。
+    # FAQ 只在同一租户、同一知识库内聚类和命中。
     faq_similarity_threshold: float = 0.88
     faq_min_occurrences: int = 2
     gap_retrieval_score_threshold: float = 0.015

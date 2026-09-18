@@ -7,7 +7,7 @@ select = ["E4", "E7", "E9", "F", "I", "B"]
 ignore = ["B008"] # FastAPI Depends/Query/Form 是声明式依赖，不是可变默认值。
 
 [tool.ruff.lint.per-file-ignores]
-# 第一阶段文件保持原样；原实现已校验长度或有意偏移配对。
+# 既有文件保持原样；原实现已校验长度或有意偏移配对。
 "app/api/router.py" = ["I001"]
 "app/ingestion/readers.py" = ["I001"]
 "app/integrations/bge_client.py" = ["I001"]

@@ -252,7 +252,7 @@ class ChatService:
             return row.id
 
     def save_audit(self, turn, message_id: str, usage: dict, response_ms: float) -> None:
-        """保存老师要求的单次问答审计格式；受限资料只记录 ID，不复制正文。"""
+        """保存单次问答审计记录；受限资料只记录 ID，不复制正文。"""
 
         with session_factory()() as db:
             db.add(QuestionAudit(

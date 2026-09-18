@@ -83,7 +83,7 @@ def main(base_url, tenant):
             "role_ids": [role],
         },
     ).json()["id"]
-    kb = api.call("POST", "/knowledge-bases", json_body={"name": "验收知识库-" + suffix}).json()["id"]
+    kb = api.call("POST", "/knowledge-bases", json_body={"name": "验证知识库-" + suffix}).json()["id"]
     for user_id in (tech_id, sales_id):
         api.call("POST", f"/knowledge-bases/{kb}/members", json_body={"user_id": user_id, "role": "viewer"})
     tech_doc = api.call(

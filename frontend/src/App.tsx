@@ -107,7 +107,7 @@ function Shell() {
     <PermissionProvider permissions={me.permissions || []}>
       <Layout className="app-shell">
         <Sider width={230} theme="light">
-          <div className="brand">2.9 企业知识库</div>
+          <div className="brand">企业知识库</div>
           <Menu
             mode="inline"
             selectedKeys={[selected]}

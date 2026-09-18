@@ -1,4 +1,4 @@
-"""第二阶段输入输出契约，未知字段拒绝接收以避免越权赋值。"""
+"""受保护业务输入输出契约，未知字段拒绝接收以避免越权赋值。"""
 
 from datetime import datetime
 from typing import Annotated, Literal

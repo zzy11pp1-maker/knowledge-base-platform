@@ -102,7 +102,7 @@ export function LoginPage() {
   const [busy, setBusy] = useState(false);
   return (
     <div className="login">
-      <Card title="2.9 企业知识库管理平台" className="login-card">
+      <Card title="企业知识库管理平台" className="login-card">
         <Form
           layout="vertical"
           onFinish={async (v) => {

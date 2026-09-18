@@ -1,4 +1,4 @@
-"""第一阶段可调用 API。"""
+"""基础文档与检索 API。"""
 
 from typing import Annotated
 

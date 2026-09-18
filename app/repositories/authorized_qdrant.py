@@ -1,4 +1,4 @@
-"""在第一阶段 Repository 上增量增加 ACL 过滤和安全存在性探测。"""
+"""在基础 Repository 上增加 ACL 过滤和安全存在性探测。"""
 
 from qdrant_client import models
 
@@ -20,7 +20,7 @@ PLATFORM_FIELDS = {"category", "is_enabled"}
 class AuthorizedQdrantRepository(QdrantRepository):
     @staticmethod
     def _payload_to_chunk(payload: dict) -> Chunk:
-        # 扩展字段留在向量 payload，第一阶段 Chunk 模型及历史数据保持兼容。
+        # 扩展字段留在向量 payload，与既有 Chunk 模型及历史数据保持兼容。
         return QdrantRepository._payload_to_chunk(
             {k: v for k, v in payload.items() if k not in ACL_FIELDS | PLATFORM_FIELDS}
         )
