@@ -1,8 +1,12 @@
-# 2.9 企业知识库管理平台：第三阶段验收报告
+# 企业知识库管理平台：全栈版本验证报告
 
-验收日期：2026-09-07  
-正式项目：`E:\ai_projects\knowledge_platform`  
-结论：**第三阶段达到验收标准**。最终有效验收共 128 项通过，0 失败，0 跳过；Python 编译检查和 React/TypeScript 生产构建另行通过。
+> 这是 2026-09-07 的开发验证记录，用于保留真实技术历史；其中数量和耗时不是当前版本的性能基准或采用情况声明。
+
+验证日期：2026-09-07
+
+验证对象：项目根目录
+
+结论：**全栈版本达到验证标准**。最终有效验证共 128 项通过，0 失败，0 跳过；Python 编译检查和 React/TypeScript 生产构建另行通过。
 
 ## 1. 新增与修改文件
 
@@ -14,10 +18,10 @@
 - `app/services/gaps.py`：五类知识缺口聚合、反复未解决识别、关闭与排序。
 - `app/services/dashboard.py`：真实业务统计及普通用户可见范围过滤。
 - `app/services/metrics.py`：低耦合业务事件写入与安全 metadata 白名单。
-- `tests/unit/test_phase3.py`：第三阶段功能、安全与生命周期测试。
+- `tests/unit/test_phase3.py`：全栈版本功能、安全与生命周期测试。
 - `phase3_end_to_end_test.py`：管理员、技术、销售三类用户真实 HTTP E2E。
 - `requirements-dev.txt`：可复现测试依赖入口。
-- `docs/phase3_design.md`：架构设计与参考资料记录。
+- `docs/architecture_operations.md`：架构设计与参考资料记录。
 - `frontend/`：React + TypeScript + Vite + Ant Design 控制台。
 
 修改文件：
@@ -49,11 +53,11 @@
 
 `documents` 新增 `file_type`、`error_message`、`updated_at`，并扩展 `status` 的 processing / ready / failed / deleted / reindex / acl_syncing / acl_failed 语义。版本字段继续承载内容、切分参数和 Embedding 模型共同决定的索引版本。
 
-当前 SQLite 启动时执行向后兼容的增量字段迁移；生产数据库迁移工具留到第四阶段 PostgreSQL 迁移时统一引入。
+当前 SQLite 启动时执行向后兼容的增量字段迁移；生产数据库迁移工具留到后续版本 PostgreSQL 迁移时统一引入。
 
 ## 3. API 清单
 
-第三阶段新增或扩展的主要 API：
+全栈版本新增或扩展的主要 API：
 
 - 文档：`POST /documents/import/batch`、`POST /documents/{id}/reindex`、`DELETE /documents/{id}`。
 - FAQ：`POST /knowledge-bases/{kb_id}/faq/mine`、`GET .../faq/candidates`、`PATCH /faq/candidates/{id}`、`POST /faq/candidates/{id}/publish`、`GET .../faqs`、`PATCH /faqs/{id}`。
@@ -61,13 +65,13 @@
 - 运营：`POST /metrics/page-view`、`GET /dashboard/summary`。
 - Citation：`GET /citations/{message_id}/{chunk_id}`，返回前重新执行消息归属、租户、KB、文档 ACL 和版本检查。
 
-第一、二阶段身份、RBAC、KB 成员、文档 ACL、检索、Chat/SSE、Conversation API 全部保留。
+基础版本与安全增强版本的身份、RBAC、KB 成员、文档 ACL、检索、Chat/SSE、Conversation API 全部保留。
 
 ## 4. 前端页面清单
 
 前端包含 13 个路由页面，覆盖要求中的 20 类功能交互：登录、Dashboard、用户、部门、角色、功能权限、知识库、知识库成员、批量上传与文档列表、文档 ACL/重建/删除、AI 问答、SSE、Markdown、Citation 卡片、历史 Conversation 查看与恢复、FAQ 候选审核、已发布 FAQ、知识缺口。
 
-浏览器烟雾验收真实执行了登录、Dashboard、创建/选择知识库、文档与 ACL、SSE 回答显示、历史消息查看和继续问答。前端只控制展示；所有授权决定仍由后端执行。
+浏览器烟雾验证真实执行了登录、Dashboard、创建/选择知识库、文档与 ACL、SSE 回答显示、历史消息查看和继续问答。前端只控制展示；所有授权决定仍由后端执行。
 
 ## 5. FAQ 流程
 
@@ -110,10 +114,10 @@ FAQ 命中前重新检查候选来源消息、所有 used Citation、文档版�
 
 ## 10. 测试命令
 
-在正式项目目录执行：
+在项目根目录执行：
 
 ```powershell
-cd E:\ai_projects\knowledge_platform
+cd <project-root>
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests\unit -q
 
@@ -134,7 +138,7 @@ npm ci
 npm run build
 ```
 
-验收用 JWT、数据库和 Qdrant 路径应通过当前 PowerShell 会话的环境变量设置，不写入源码；正式运行使用 `.env`。
+验证用 JWT、数据库和 Qdrant 路径应通过当前 PowerShell 会话的环境变量设置，不写入源码；正式运行使用 `.env`。
 
 ## 11. 每组测试通过数量
 
@@ -144,9 +148,9 @@ npm run build
 | 真实 AutoDL + Qdrant 外部集成 | 1 | 0 | 0 |
 | SiliconFlow LLM 外部检查 | 5 | 0 | 0 |
 | 权限边界审计 | 8 | 0 | 0 |
-| 第一阶段原始 E2E 步骤 | 5 | 0 | 0 |
-| 第二阶段正式 Uvicorn E2E | 10 | 0 | 0 |
-| 第三阶段正式 Uvicorn E2E | 13 | 0 | 0 |
+| 基础版本原始 E2E 步骤 | 5 | 0 | 0 |
+| 安全增强版本正式 Uvicorn E2E | 10 | 0 | 0 |
+| 全栈版本正式 Uvicorn E2E | 13 | 0 | 0 |
 | 前端浏览器核心烟雾检查 | 6 | 0 | 0 |
 | **合计** | **128** | **0** | **0** |
 
@@ -156,26 +160,26 @@ npm run build
 
 AutoDL 服务 `http://127.0.0.1:18000` 实际返回 BGE-M3 dense+sparse，并完成本地持久化 Qdrant 写入、Hybrid Search、RRF 和真实 Reranker。SiliconFlow `deepseek-ai/DeepSeek-V4-Pro` 实际产生 10 个流增量，首增量 4.250 秒，总计 4.437 秒，回答包含 Cedar-28 和 `[S1]`。
 
-第二阶段链路 10/10：JWT → RBAC → KB 成员 → ACL → BGE → Qdrant → RRF → SQL 二次鉴权 → Reranker → LLM → SSE → Citation → Conversation。SSE 收到 start 1、token 14、citation 1、done 1。
+安全增强版本链路 10/10：JWT → RBAC → KB 成员 → ACL → BGE → Qdrant → RRF → SQL 二次鉴权 → Reranker → LLM → SSE → Citation → Conversation。SSE 收到 start 1、token 14、citation 1、done 1。
 
-第三阶段 13/13：批量导入、技术用户 SSE/Citation/历史恢复、FAQ 自动沉淀/发布、管理员 Dashboard、销售用户 FAQ/Chat/Dashboard 隔离、Gap 权限边界均通过。
+全栈版本 13/13：批量导入、技术用户 SSE/Citation/历史恢复、FAQ 自动沉淀/发布、管理员 Dashboard、销售用户 FAQ/Chat/Dashboard 隔离、Gap 权限边界均通过。
 
 浏览器实测中发现并修复了 CRLF SSE 分帧兼容问题；修复后页面真实显示证据不足回答并持久化 Conversation，历史页可加载消息并返回工作台继续问答。
 
-## 13. 第一、二阶段回归结果
+## 13. 基础版本与安全增强版本回归结果
 
-- 第一阶段 `end_to_end_test.py`：读取 1 个 Markdown，切分 4 个 Chunk，Qdrant 计数 4，Hybrid TopK 4 均有真实 Rerank 分数，5/5 步骤通过。
-- 第二阶段 `permission_security_test.py`：8/8。
-- 第二阶段 `llm_external_test.py`：5/5。
-- 第二阶段 `phase2_end_to_end_test.py`：10/10。
-- 全部 80 个单元/组件测试包含第一、二阶段原测试，最终再次通过。
+- 基础版本 `end_to_end_test.py`：读取 1 个 Markdown，切分 4 个 Chunk，Qdrant 计数 4，Hybrid TopK 4 均有真实 Rerank 分数，5/5 步骤通过。
+- 安全增强版本 `permission_security_test.py`：8/8。
+- 安全增强版本 `llm_external_test.py`：5/5。
+- 安全增强版本 `phase2_end_to_end_test.py`：10/10。
+- 全部 80 个单元/组件测试包含基础版本与安全增强版本原测试，最终再次通过。
 
 ## 14. 前后端启动方法
 
 先保证本机隧道 `127.0.0.1:18000` 可访问，并在 `.env` 配置数据库、随机 JWT Secret、BGE/Reranker、Qdrant 和 LLM。不要把密钥写进启动命令或日志。
 
 ```powershell
-cd E:\ai_projects\knowledge_platform
+cd <project-root>
 .\.venv\Scripts\Activate.ps1
 python bootstrap_admin.py --tenant your-tenant --username admin
 python -m uvicorn main:app --host 127.0.0.1 --port 8080
@@ -184,7 +188,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8080
 另开终端：
 
 ```powershell
-cd E:\ai_projects\knowledge_platform\frontend
+cd <project-root>\frontend
 npm ci
 npm run dev -- --host 127.0.0.1
 ```
@@ -193,15 +197,15 @@ npm run dev -- --host 127.0.0.1
 
 ## 15. 仍未完成事项
 
-以下均按需求留到第四阶段：PostgreSQL 生产迁移、Qdrant Server 正式部署、Docker Compose、TLS、压力测试、Kubernetes、LoRA/QLoRA、Multi-Agent。
+以下均按需求留到后续版本：PostgreSQL 生产迁移、Qdrant Server 正式部署、Docker Compose、TLS、压力测试、Kubernetes、LoRA/QLoRA、Multi-Agent。
 
 非阻塞优化项：前端按路由懒加载以缩小首包；引入 Alembic 替代当前 SQLite 增量迁移；生产级异步任务队列与失败补偿；独立 Qdrant Server 验证 payload index 性能。Windows 终端中文日志存在代码页显示乱码，但 UTF-8 API/数据库/页面内容均正常。
 
-## 16. 验收结论
+## 16. 验证结论
 
-第三阶段目标均已有可运行实现，且在正式目录用真实 AutoDL、真实 Qdrant、真实 SiliconFlow、正式 Uvicorn 和真实浏览器完成验收。FAQ、Gap、Dashboard、Citation 与文档生命周期均保留 tenant/KB/RBAC/ACL 安全边界，没有使用 Mock 冒充外部验收，也未提前开发第四阶段内容。
+全栈版本目标均已有可运行实现，且曾在项目根目录使用真实 AutoDL、Qdrant、SiliconFlow、Uvicorn 和浏览器完成验证。FAQ、Gap、Dashboard、Citation 与文档生命周期均保留 tenant/KB/RBAC/ACL 安全边界，没有使用 Mock 冒充外部验证，也未提前开发后续版本内容。
 
-**结论：第三阶段通过验收，可以进入演示与第四阶段规划。**
+**结论：全栈版本通过验证，可以进入演示与后续版本规划。**
 
 ## 参考资料与取舍
 
