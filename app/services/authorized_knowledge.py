@@ -1,4 +1,4 @@
-"""受保护的导入与检索，第一阶段模型客户端及算法保持复用。"""
+"""受保护的导入与检索，复用既有模型客户端及算法。"""
 
 from datetime import datetime, timezone
 from time import perf_counter

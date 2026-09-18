@@ -1,4 +1,4 @@
-"""第二阶段单元/组件测试：真实 SQLite 和 Qdrant，模型替身仅存在于本测试文件。"""
+"""身份与权限单元/组件测试：真实 SQLite 和 Qdrant，模型替身仅存在于本测试文件。"""
 
 import os
 import tempfile

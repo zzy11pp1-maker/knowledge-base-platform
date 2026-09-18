@@ -1,4 +1,4 @@
-"""第三阶段真实 HTTP E2E：真实 GPU、Qdrant、LLM、SSE 与三类用户安全边界。"""
+"""完整功能 HTTP E2E：真实 GPU、Qdrant、LLM、SSE 与三类用户安全边界。"""
 
 import argparse
 import json
@@ -15,7 +15,7 @@ def require(value, name, checks):
 
 
 def wait_ingestion_jobs(api, job_ids):
-    """轮询服务端持久化任务状态，失败时保留明确验收原因。"""
+    """轮询服务端持久化任务状态，失败时保留明确验证原因。"""
 
     for _ in range(600):
         jobs = [api.call("GET", f"/ingestion-jobs/{job_id}").json() for job_id in job_ids]
@@ -43,7 +43,7 @@ def main(base_url: str, tenant: str):
         "department_id": tech_department, "role_ids": [role]}).json()["id"]
     sales_id = api.call("POST", "/users", json_body={"username": sales_name, "password": PASSWORD,
         "department_id": sales_department, "role_ids": [role]}).json()["id"]
-    kb = api.call("POST", "/knowledge-bases", json_body={"name": "P3验收库-" + suffix}).json()["id"]
+    kb = api.call("POST", "/knowledge-bases", json_body={"name": "E2E验证库-" + suffix}).json()["id"]
     for user_id in (tech_id, sales_id):
         api.call("POST", f"/knowledge-bases/{kb}/members", json_body={"user_id": user_id, "role": "viewer"})
 
@@ -77,7 +77,7 @@ def main(base_url: str, tenant: str):
             "mixed_four_dimensional_acl", checks)
 
     api.token = api.login(tenant, tech_name)
-    conversation = api.call("POST", "/conversations", json_body={"kb_id": kb, "title": "第三阶段验收"}).json()["id"]
+    conversation = api.call("POST", "/conversations", json_body={"kb_id": kb, "title": "完整功能验证"}).json()["id"]
     latest = None
     for _ in range(2):
         with api.client.stream("POST", "/chat/stream", json={"kb_id": kb, "query": "技术发布代号是什么？",

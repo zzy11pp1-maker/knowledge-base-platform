@@ -1,4 +1,4 @@
-"""第一阶段领域模型。"""
+"""文档检索领域模型。"""
 
 from datetime import datetime, timezone
 from math import isfinite

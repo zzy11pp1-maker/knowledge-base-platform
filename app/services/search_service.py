@@ -7,7 +7,7 @@ from app.repositories.qdrant_repository import QdrantRepository
 
 
 class SearchService:
-    """完成第一阶段可解释的混合检索闭环。"""
+    """完成可解释的混合检索闭环。"""
 
     def __init__(
         self,

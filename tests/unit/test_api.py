@@ -10,7 +10,7 @@ from app.api.router import router
 from app.core.dependencies import get_document_service, get_search_service
 from app.models.domain import Chunk, DocumentSummary, FusedCandidate, IngestionResult
 
-# 单独保留第一阶段路由契约回归；正式 main 只挂载第二阶段认证路由。
+# 单独保留基础路由契约回归；正式 main 只挂载受保护认证路由。
 app = FastAPI()
 app.include_router(router)
 

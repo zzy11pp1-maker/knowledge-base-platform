@@ -154,7 +154,7 @@ def gap_to_faq(gap_id: str, user: Principal = Depends(require("gap:manage")), se
 
 @router.get("/knowledge-bases/{kb_id}/question-audits", response_model=list[QuestionAuditOutput])
 def question_audits(kb_id: str, user: Principal = Depends(require("audit:view"))):
-    """按老师规定格式输出单次问答的召回、放行、拦截、Token 与耗时。"""
+    """输出单次问答的召回、放行、拦截、Token 与耗时。"""
 
     with session_factory()() as db:
         kb_access(db, user, kb_id, "owner")

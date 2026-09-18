@@ -1,4 +1,4 @@
-"""真实权限泄漏验收：外部服务照常调用，探针仅记录测试标记是否越界。"""
+"""真实权限泄漏验证：外部服务照常调用，探针仅记录测试标记是否越界。"""
 
 import json
 from uuid import uuid4
@@ -91,7 +91,7 @@ def main():
                         "role_ids": [reader],
                     },
                 ).json()["id"]
-            kb = request(client, admin, "POST", "/knowledge-bases", {"name": "权限验收"}).json()["id"]
+            kb = request(client, admin, "POST", "/knowledge-bases", {"name": "权限验证"}).json()["id"]
             for user_id in users.values():
                 request(
                     client,
