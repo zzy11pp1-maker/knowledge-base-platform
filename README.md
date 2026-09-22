@@ -1,5 +1,7 @@
 # 企业知识库管理平台
 
+[English](README_EN.md)
+
 一个面向多租户知识管理场景的 RAG 应用。项目包含 FastAPI 后端和 React 管理控制台，支持文档导入、混合检索、基于角色与文档 ACL 的权限控制、流式问答、引用追踪、FAQ 沉淀、知识缺口和运营看板。
 
 这是项目的首个开源版本。仓库保留了真实实现、架构记录和本地演示截图，但不代表已有社区用户、生产采用或性能基准。
@@ -76,18 +78,19 @@ flowchart LR
 ### Backend setup
 
 ```bash
-git clone --branch oss-release https://github.com/zzy11pp1-maker/knowledge-base-platform.git
+git clone https://github.com/zzy11pp1-maker/knowledge-base-platform.git
 cd knowledge-base-platform
 python -m venv .venv
 ```
 
-激活虚拟环境：
+按所用终端激活虚拟环境：
 
 ```bash
 # Linux / macOS
 source .venv/bin/activate
+```
 
-# Windows PowerShell
+```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -139,7 +142,7 @@ npm run dev
 
 开发服务器默认运行在 `http://127.0.0.1:5173`，并把 `/api` 代理到 `http://127.0.0.1:8080`。如需直接连接其他 API，可设置 `VITE_API_BASE`。
 
-生产构建：
+生产构建（在 `frontend` 目录执行）：
 
 ```bash
 npm run build
